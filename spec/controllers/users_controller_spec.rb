@@ -33,6 +33,14 @@ describe UsersController do
       get :show, :id => @user
       response.should have_selector("h1>img", :class => "gravatar")
     end
+
+    it "should show the user's microposts" do
+      mp1 = Factory(:micropost, :user => @user, :content => "Foo bar")
+      mp2 = Factory(:micropost, :user => @user, :content => "Baz quux")
+      get :show, :id => @user
+      response.should have_selector("span.content", :content => mp1.content)
+      response.should have_selector("span.content", :content => mp2.content)
+    end
   end
 
   describe "GET 'new'" do
@@ -223,23 +231,6 @@ describe UsersController do
     end
   end
 
-  describe "for signed-in users" do
-
-      before(:each) do
-        wrong_user = Factory(:user, :email => "user@example.net")
-        test_sign_in(wrong_user)
-      end
-
-      it "should require matching users for 'edit'" do
-        get :edit, :id => @user
-        response.should redirect_to(root_path)
-      end
-
-      it "should require matching users for 'update'" do
-        put :update, :id => @user, :user => {}
-        response.should redirect_to(root_path)
-      end
-    end
 
   describe "GET 'index'" do
 
