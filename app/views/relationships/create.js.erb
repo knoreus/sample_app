@@ -1,0 +1,9 @@
+/**
+ * Created by JetBrains RubyMine.
+ * User: Kevin
+ * Date: 11/17/11
+ * Time: 11:53 PM
+ * To change this template use File | Settings | File Templates.
+ */
+$("follow_form").update("<%= escape_javascript(render('users/unfollow')) %>")
+$("followers").update('<%= "#{@user.followers.count} followers" %>')
